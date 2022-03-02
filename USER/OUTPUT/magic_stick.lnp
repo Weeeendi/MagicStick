@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+".\output\main.o"
+".\output\stm32f10x_it.o"
+".\output\mpu9250.o"
+".\output\obj_state.o"
+".\output\uart.o"
+".\output\stm32f10x_rcc.o"
+".\output\stm32f10x_tim.o"
+".\output\stm32f10x_usart.o"
+".\output\stm32f10x_wwdg.o"
+".\output\misc.o"
+".\output\stm32f10x_gpio.o"
+".\output\stm32f10x_flash.o"
+".\output\startup_stm32f10x_hd.o"
+".\output\core_cm3.o"
+".\output\system_stm32f10x.o"
+".\output\fusionahrs.o"
+".\output\fusionbias.o"
+".\output\fusioncompass.o"
+".\output\mcu_api.o"
+".\output\protocol.o"
+".\output\system.o"
+--strict --scatter ".\OUTPUT\magic_stick.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\magic_stick.map" -o .\OUTPUT\magic_stick.axf
