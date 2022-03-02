@@ -109,11 +109,13 @@ uint16_t average_value(INT16_XYZ sensor_value,INT16_XYZ *average)
 	
   static LinkQueue linkqueue;
 
+	static uint8_t _cnt = 0;
+	
+	if(_cnt==0){
 	linkqueue.front = sensor_value_queue;
 	linkqueue.rear = sensor_value_queue;
 	linkqueue.len = 0;
-	
-	static uint8_t _cnt = 0;
+	}
 	
 	Enqueue(&linkqueue,&sensor_value);
 	
@@ -122,10 +124,9 @@ uint16_t average_value(INT16_XYZ sensor_value,INT16_XYZ *average)
 	tempgz += sensor_value.z;
 	_cnt++;
 	
-	if()
-	//过去的20个点求平均
-	if(_cnt==20) 
-		_cnt--;
+	if(_cnt == 40)
+	//过去的40个点求平均
+	DeQueue(&linkqueue,sensor_value_queue)
 	average->x = tempgx/_cnt;
 	average->y = tempgy/_cnt;
 	average->z = tempgz/_cnt;

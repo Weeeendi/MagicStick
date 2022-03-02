@@ -8,7 +8,7 @@
 
 typedef int Status;
 typedef unsigned int QueueMems;
-typedef INT16_XYZ* QElemType;
+typedef INT16_XYZ QElemType;
 
 typedef struct QNode //队列节点
 {

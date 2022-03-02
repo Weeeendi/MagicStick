@@ -10,14 +10,12 @@ Status Enqueue(LinkQueue* Q,QElemType e)
 {
 QueuePtr newNode = (QueuePtr)malloc(sizeof(QNode)); //新建队列节点
 
-unsigned char len = sizeof(QElemType);
-
-newNode->data = (QElemType)malloc(len);    //为节点数据域分配内存
+newNode->data = (QElemType)malloc(sizeof(QElemType));    //为节点数据域分配内存
 
 //数据域循环赋值
-newNode->data->x = e->x;
-newNode->data->y = e->y;
-newNode->data->z = e->z;	
+newNode->data.x = e.x;
+newNode->data.y = e.y;
+newNode->data.z = e.z;	
 
 newNode->next = NULL;
 
