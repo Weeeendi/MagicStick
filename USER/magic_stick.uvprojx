@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\SRC;.\Libraries\STM32F10x_StdPeriph_Driver\inc;.\Libraries\CMSIS\Core\CM3;.\Libraries\Fusion;.\mcu_sdk;..\USER</IncludePath>
+              <IncludePath>.\SRC;.\Libraries\STM32F10x_StdPeriph_Driver\inc;.\Libraries\CMSIS\Core\CM3;.\Libraries\Fusion;.\mcu_sdk;..\USER;.\BOARD</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -412,6 +412,11 @@
               <FileName>Myqueue.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SRC\Myqueue.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\Timer.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -517,6 +522,21 @@
               <FileName>system.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\mcu_sdk\system.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>BOARD</GroupName>
+          <Files>
+            <File>
+              <FileName>Hal_Key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\BOARD\Hal_Key.c</FilePath>
+            </File>
+            <File>
+              <FileName>Hal_RGB.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\BOARD\Hal_RGB.c</FilePath>
             </File>
           </Files>
         </Group>

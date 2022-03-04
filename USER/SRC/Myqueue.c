@@ -10,12 +10,12 @@ Status Enqueue(LinkQueue* Q,QElemType e)
 {
 QueuePtr newNode = (QueuePtr)malloc(sizeof(QNode)); //新建队列节点
 
-newNode->data = (QElemType)malloc(sizeof(QElemType));    //为节点数据域分配内存
+newNode->data = (QElemType*)malloc(sizeof(INT16_XYZ));    //为节点数据域分配内存
 
 //数据域循环赋值
-newNode->data.x = e.x;
-newNode->data.y = e.y;
-newNode->data.z = e.z;	
+newNode->data->x = e.x;
+newNode->data->y = e.y;
+newNode->data->z = e.z;	
 
 newNode->next = NULL;
 
@@ -35,20 +35,18 @@ p = Q->front->next; //要出队的是头结点的下一个节点
 //*e = p->data;    //将要出队的节点数据赋值给e
 unsigned char len = sizeof(QElemType);
 
-*e=(QElemType)malloc(len);
+e=(QElemType*)malloc(len);
 
-
-
-(*e)->x = p->data->x;
-(*e)->y = p->data->y;
-(*e)->z = p->data->z;
-	
+(*e).x = p->data->x;
+(*e).y = p->data->y;
+(*e).z = p->data->z;	
 
 Q->front->next = p->next;
-
+Q->len--;
 if(Q->rear == p) //尾指针指向p说明队列空了
 {
 Q->rear = Q->front;
+Q->len = 0;
 }
 
 free(p->data);
@@ -96,3 +94,5 @@ return ERR_OK;
 //getchar();
 
 //}
+
+

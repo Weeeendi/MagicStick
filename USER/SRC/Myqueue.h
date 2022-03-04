@@ -12,7 +12,7 @@ typedef INT16_XYZ QElemType;
 
 typedef struct QNode //队列节点
 {
-QElemType data;
+QElemType *data;
 struct QNode *next;
 }QNode,*QueuePtr;
 
@@ -31,3 +31,4 @@ Status DeQueue(LinkQueue* Q,QElemType* e);
 
 
 #endif
+

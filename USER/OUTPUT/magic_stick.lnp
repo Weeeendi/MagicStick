@@ -4,6 +4,8 @@
 ".\output\mpu9250.o"
 ".\output\obj_state.o"
 ".\output\uart.o"
+".\output\myqueue.o"
+".\output\timer.o"
 ".\output\stm32f10x_rcc.o"
 ".\output\stm32f10x_tim.o"
 ".\output\stm32f10x_usart.o"
@@ -20,6 +22,8 @@
 ".\output\mcu_api.o"
 ".\output\protocol.o"
 ".\output\system.o"
+".\output\hal_key.o"
+".\output\hal_rgb.o"
 --strict --scatter ".\OUTPUT\magic_stick.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

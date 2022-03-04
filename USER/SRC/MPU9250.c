@@ -344,9 +344,9 @@ void READ_MPU9250_GYRO(INT16_XYZ *Gyro)
 void READ_MPU9250_MAG(INT16_XYZ *Mag)
 { 
    Single_Write(GYRO_ADDRESS,0x37,0x02);//turn on Bypass Mode 
-   Delayms(5);	
+   Delayms(2);	
    Single_Write(MAG_ADDRESS,0x0A,0x01);
-   Delayms(5);	
+   Delayms(2);	
    BUF[0]=Single_Read (MAG_ADDRESS,MAG_XOUT_L);
    BUF[1]=Single_Read (MAG_ADDRESS,MAG_XOUT_H);
    Mag->x = (BUF[1]<<8)|BUF[0];

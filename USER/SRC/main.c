@@ -11,6 +11,10 @@
 #include "include.h"
 #include "mcu_api.h"
 #include "MPU9250.h"
+#include "Obj_state.h"
+#include "Hal_Key.h"
+#include "Timer.h"
+
 
 GPIO_InitTypeDef GPIO_InitStructure;
 ErrorStatus HSEStartUpStatus;
@@ -27,6 +31,10 @@ extern char  test; 				 //IIC
 extern FusionVector3 gyroscopeSensitivity;
 extern FusionVector3 accelerometerSensitivity;
 extern FusionVector3 hardIronBias;
+
+
+extern const uint8_t have_extremum;
+extern const uint8_t no_extremum;
 
 /* functions -----------------------------------------------*/
 void RCC_Configuration(void);
@@ -232,8 +240,8 @@ void u1_printf(char *fmt,...)
 	vsnprintf(buffer,100,fmt,arg_ptr);
 	while(i<100&&buffer[i])
 	{		
-		USART_SendData(USART3,buffer[i]);
-		while(USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
+		USART_SendData(USART1,buffer[i]);
+		while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
 		i++;
 	}
 	va_end(arg_ptr);
@@ -359,7 +367,7 @@ void ANO_DT_Send_Gesture(FusionEulerAngles eulerAngles)
  // u1_printf("%s \r\n",param);
 }
 
-
+ObjS MagicStick_state;
 /*
 ********************************************************************************
 * Function Name  : main(void)
@@ -373,62 +381,38 @@ int main(void)
 { 
 	RCC_Configuration();		 //RCC
 	USART1_Init(115200);
-	USART3_Init(115200);	 //UART3
+	USART3_Init(9600);	 //UART3
 	//WWDG_Configuration();  //Witch dog
 	I2C_GPIO_Config();		 //IIC
 	Init_MPU9250();		     //MPU9250
 	wifi_protocol_init();  //UART PROCESS
-	 // Initialise gyroscope bias correction algorithm
-    FusionBiasInitialise(&fusionBias, 0.5f, samplePeriod); // stationary threshold = 0.5 degrees per second
+	
+	TIM3_Count_Init(99,719);//1ms
+	KEY_Init();
+	
+	
+  // Initialise gyroscope bias correction algorithm
+	FusionBiasInitialise(&fusionBias, 0.5f, samplePeriod); // stationary threshold = 0.5 degrees per second
 
-    // Initialise AHRS algorithm
-    FusionAhrsInitialise(&fusionAhrs, 0.5f); // gain = 0.5
+	// Initialise AHRS algorithm
+	FusionAhrsInitialise(&fusionAhrs, 0.5f); // gain = 0.5
 
-    // Set optional magnetic field limits
-    FusionAhrsSetMagneticField(&fusionAhrs, 0.0f, 4912.0f); // valid magnetic field range = 20 uT to 70 uT
-			
+	// Set optional magnetic field limits
+	FusionAhrsSetMagneticField(&fusionAhrs, 0.0f, 4912.0f); // valid magnetic field range = 20 uT to 70 uT
+		
 	INT16_XYZ ACCEL_XYZ = {0};
 	INT16_XYZ GYRO_XYZ = {0};
 	INT16_XYZ MAG_XYZ = {0};
-	INT16_XYZ MPU9250_ACCEL_OffSet = {0};
-	INT16_XYZ MPU9250_GYRO_OffSet = {0};
-	INT16_XYZ MPU9250_MAG_OffSet = {0};
 
-//	uint8_t Calibration = 0;
-//	do{
-//		READ_MPU9250_ACCEL(&ACCEL_XYZ);  //obtian Accel	 
-//		READ_MPU9250_GYRO(&GYRO_XYZ);   //obtian gyro 
-//		READ_MPU9250_MAG(&MAG_XYZ);	   //obtian MAG
-
-//		MPU9250_OffSet(ACCEL_XYZ,&MPU9250_ACCEL_OffSet,0);
-//		MPU9250_OffSet(GYRO_XYZ,&MPU9250_GYRO_OffSet,0);
-
-//		Calibration = MPU9250_OffSet(MAG_XYZ,&MPU9250_MAG_OffSet,0);		
-//	}while(!Calibration);
-	
-//		int ChangeAccel_AboutYaw = 0;
-//		float lastTime_Yaw = 0.0;
-//		float Now_Yaw = 0.0;
+	//魔棒状态初始化
+		MagicStick_state = init_Magicstick_state(MagicStick_state);
     while(1)
     {	
 			wifi_uart_service();
 			READ_MPU9250_ACCEL(&ACCEL_XYZ);  //obtian Accel	 
 			READ_MPU9250_GYRO(&GYRO_XYZ);   //obtian gyro 
 			READ_MPU9250_MAG(&MAG_XYZ);	   //obtian MAG		
-//			
-//	 		ACCEL_XYZ.x-=MPU9250_ACCEL_OffSet.x;
-//			ACCEL_XYZ.y-=MPU9250_ACCEL_OffSet.y;
-//			ACCEL_XYZ.z-=MPU9250_ACCEL_OffSet.z;
-//			
-//			GYRO_XYZ.x-=MPU9250_GYRO_OffSet.x;
-//			GYRO_XYZ.y-=MPU9250_GYRO_OffSet.y;
-//			GYRO_XYZ.z-=MPU9250_GYRO_OffSet.z;
-//			
-//			MAG_XYZ.x-= MPU9250_MAG_OffSet.x;
-//			MAG_XYZ.y-= MPU9250_MAG_OffSet.y;
-//			MAG_XYZ.z-= MPU9250_MAG_OffSet.z;
-//			
-			
+	
 			// Calibrate gyroscope
 			FusionVector3 uncalibratedGyroscope = {
 				 .axis.x = GYRO_XYZ.x, /* replace this value with actual gyroscope x axis measurement in lsb */
@@ -454,7 +438,7 @@ int main(void)
 			FusionVector3 calibratedMagnetometer = FusionCalibrationMagnetic(uncalibratedMagnetometer, FUSION_ROTATION_MATRIX_IDENTITY, hardIronBias);
 			FusionVector3 calibratedAccelerometer = FusionCalibrationInertial(uncalibratedAccelerometer, FUSION_ROTATION_MATRIX_IDENTITY, accelerometerSensitivity, FUSION_VECTOR3_ZERO);
 			
-			ANO_DT_Send_Senser(ACCEL_XYZ.x,ACCEL_XYZ.y,ACCEL_XYZ.z,GYRO_XYZ.x,GYRO_XYZ.y,GYRO_XYZ.z,MAG_XYZ.x,MAG_XYZ.y,MAG_XYZ.z);
+		  //ANO_DT_Send_Senser(ACCEL_XYZ.x,ACCEL_XYZ.y,ACCEL_XYZ.z,GYRO_XYZ.x,GYRO_XYZ.y,GYRO_XYZ.z,MAG_XYZ.x,MAG_XYZ.y,MAG_XYZ.z);
 			// Update gyroscope bias correction algorithm
 			calibratedGyroscope = FusionBiasUpdate(&fusionBias, calibratedGyroscope);
 
@@ -467,14 +451,25 @@ int main(void)
      	//u1_printf("Roll = %0.1f,\tPitch = %0.1f,\t Yaw = %0.1f\r\n", eulerAngles.angle.roll, eulerAngles.angle.pitch, eulerAngles.angle.yaw);	
 			//u1_printf("%0.1f \t%0.1f\t %0.1f\r\n", eulerAngles.angle.roll, eulerAngles.angle.pitch, eulerAngles.angle.yaw);	
 
-//			Now_Yaw = (eulerAngles.angle.yaw);
-//			if((Now_Yaw-lastTime_Yaw)>60||(Now_Yaw-lastTime_Yaw)<-60){
-//				eulerAngles.angle.yaw = lastTime_Yaw;				
-//			}else{
-//			lastTime_Yaw = Now_Yaw;
-//			}
-			ANO_DT_Send_Gesture(eulerAngles);
-			Delayms(1);				 //
+			switch(StateJudge_op(MagicStick_state,GYRO_XYZ,2).MoveDirection){
+				case MoveUp:
+					u1_printf("Move direction is up\n");
+				  break;
+				case MoveDown:
+					u1_printf("Move direction is down\n");
+				  break;
+				case MoveLeft:
+					u1_printf("Move direction is left\n");
+				  break;
+				case MoveRight:
+					u1_printf("Move direction is right\n");
+				  break;
+				default:
+					u1_printf("No Move!!!\n");
+					break;
+			}
+			
+			//ANO_DT_Send_Gesture(eulerAngles);
      }
 }
 

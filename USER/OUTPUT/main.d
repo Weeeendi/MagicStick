@@ -30,3 +30,6 @@
 .\output\main.o: .\Libraries\Fusion\FusionBias.h
 .\output\main.o: .\Libraries\Fusion\FusionCalibration.h
 .\output\main.o: .\Libraries\Fusion\FusionCompass.h
+.\output\main.o: SRC\Obj_state.h
+.\output\main.o: .\BOARD\Hal_Key.h
+.\output\main.o: SRC\Timer.h

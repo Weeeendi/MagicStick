@@ -22,74 +22,16 @@ Dialog DLL:      TCM.DLL V1.53.0.0
  
 <h2>Project:</h2>
 D:\W117\Tuya_Migicstick\USER\magic_stick.uvprojx
-Project File Date:  03/01/2022
+Project File Date:  03/03/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling Myqueue.c...
-SRC\Myqueue.h(31): warning:  #1-D: last line of file ends without a newline
-  #endif
-SRC\Myqueue.c(15): error:  #119: cast to type "QElemType" is not allowed
-  newNode->data = (QElemType)malloc(len);    //为节点数据域分配内存
-SRC\Myqueue.c(18): error:  #44: expression must have pointer type
-  newNode->data->x = e->x;
-SRC\Myqueue.c(18): error:  #44: expression must have pointer type
-  newNode->data->x = e->x;
-SRC\Myqueue.c(19): error:  #44: expression must have pointer type
-  newNode->data->y = e->y;
-SRC\Myqueue.c(19): error:  #44: expression must have pointer type
-  newNode->data->y = e->y;
-SRC\Myqueue.c(20): error:  #44: expression must have pointer type
-  newNode->data->z = e->z;	
-SRC\Myqueue.c(20): error:  #44: expression must have pointer type
-  newNode->data->z = e->z;	
-SRC\Myqueue.c(39): error:  #119: cast to type "QElemType" is not allowed
-  *e=(QElemType)malloc(len);
-SRC\Myqueue.c(43): error:  #44: expression must have pointer type
-  (*e)->x = p->data->x;
-SRC\Myqueue.c(43): error:  #44: expression must have pointer type
-  (*e)->x = p->data->x;
-SRC\Myqueue.c(44): error:  #44: expression must have pointer type
-  (*e)->y = p->data->y;
-SRC\Myqueue.c(44): error:  #44: expression must have pointer type
-  (*e)->y = p->data->y;
-SRC\Myqueue.c(45): error:  #44: expression must have pointer type
-  (*e)->z = p->data->z;
-SRC\Myqueue.c(45): error:  #44: expression must have pointer type
-  (*e)->z = p->data->z;
-SRC\Myqueue.c(55): error:  #167: argument of type "QElemType" is incompatible with parameter of type "void *"
-  free(p->data);
-SRC\Myqueue.c(99): warning:  #1-D: last line of file ends without a newline
-  //}
-SRC\Myqueue.c: 2 warnings, 15 errors
-compiling Obj_state.c...
-SRC\Myqueue.h(31): warning:  #1-D: last line of file ends without a newline
-  #endif
-SRC\Obj_state.c(107): error:  #513: a value of type "int" cannot be assigned to an entity of type "QElemType"
-    sensor_value_queue->data = 0;
-SRC\Obj_state.c(116): error:  #167: argument of type "INT16_XYZ *" is incompatible with parameter of type "QElemType"
-  	Enqueue(&linkqueue,&sensor_value);
-SRC\Obj_state.c(117): error:  #20: identifier "Enque" is undefined
-  	Enque
-SRC\Obj_state.c(119): error:  #101: "tempgx" has already been declared in the current scope
-  	tempgx += sensor_value.x;
-SRC\Obj_state.c(119): error:  #65: expected a ";"
-  	tempgx += sensor_value.x;
-SRC\Obj_state.c(131): warning:  #940-D: missing return statement at end of non-void function "average_value" 
-  }
-SRC\Obj_state.c(104): warning:  #177-D: variable "tempgx"  was declared but never referenced
-  	static int32_t tempgx=0,tempgy=0,tempgz=0;
-SRC\Obj_state.c(143): warning:  #940-D: missing return statement at end of non-void function "move_left_judge" 
-  }
-SRC\Obj_state.c(155): warning:  #940-D: missing return statement at end of non-void function "move_right_judge" 
-  }
-SRC\Obj_state.c(167): warning:  #940-D: missing return statement at end of non-void function "move_up_judge" 
-  }
-SRC\Obj_state.c(179): warning:  #940-D: missing return statement at end of non-void function "move_down_judge" 
-  }
-SRC\Obj_state.c: 7 warnings, 5 errors
-".\OUTPUT\magic_stick.axf" - 20 Error(s), 9 Warning(s).
+compiling main.c...
+linking...
+Program Size: Code=36720 RO-data=1072 RW-data=184 ZI-data=2080  
+FromELF: creating hex file...
+".\OUTPUT\magic_stick.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -112,8 +54,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.5.0
-Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
