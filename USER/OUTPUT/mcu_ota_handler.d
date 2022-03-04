@@ -1,9 +1,0 @@
-.\output\mcu_ota_handler.o: mcu_sdk\mcu_ota_handler.c
-.\output\mcu_ota_handler.o: mcu_sdk\mcu_ota_handler.h
-.\output\mcu_ota_handler.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\mcu_ota_handler.o: mcu_sdk\bluetooth.h
-.\output\mcu_ota_handler.o: mcu_sdk\protocol.h
-.\output\mcu_ota_handler.o: mcu_sdk\system.h
-.\output\mcu_ota_handler.o: mcu_sdk\mcu_api.h
-.\output\mcu_ota_handler.o: mcu_sdk\mcu_ota_handler.h
-.\output\mcu_ota_handler.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

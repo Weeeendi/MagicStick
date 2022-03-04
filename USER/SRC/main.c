@@ -409,6 +409,7 @@ int main(void)
     while(1)
     {	
 			wifi_uart_service();
+			Key_Scan();
 			READ_MPU9250_ACCEL(&ACCEL_XYZ);  //obtian Accel	 
 			READ_MPU9250_GYRO(&GYRO_XYZ);   //obtian gyro 
 			READ_MPU9250_MAG(&MAG_XYZ);	   //obtian MAG		

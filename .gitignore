@@ -5,23 +5,19 @@
 #
 # Normal rules
 #
-.*
-*.c
-*.h
 *.o
-*.o.*
-*.a
-*.s
-*.su
-*.mod.c
-*.i
+*.hex
+*.d
+*.crf
+*.axf
+*.map
+*.htm
+*.lnp
+*.sct
+*.dep
 *.lst
-*.order
-*.elf
-*.swp
-*.bin
-*.patch
-*.cfgtmp
+*.scvd
+*.iex
 
 # host programs on Cygwin
 *.exe
